@@ -8,7 +8,7 @@
 
     <meta charset = "utf-8">
 
-    <title>Conway with WebGPU</title>
+    <title>WebGPU Life</title>
 
     </head>
   <style>
@@ -41,15 +41,34 @@ canvas {
 
       
       const canvas = document.getElementById("gameCanvas");
-const pixelRatio = window.devicePixelRatio || 1;
+const aspectRatio = 16 / 9; // You can adjust this ratio as needed
 
-// Set canvas size taking into account the device's pixel ratio
-canvas.width = window.innerWidth * pixelRatio;
-canvas.height = window.innerHeight * pixelRatio;
+function resizeCanvas() {
+    const maxWidth = window.innerWidth;
+    const maxHeight = window.innerHeight;
 
-// Set the CSS size to the desired visual size (adjust as needed)
-canvas.style.width = window.innerWidth + "px";
-canvas.style.height = window.innerHeight + "px";
+    const width = maxWidth;
+    const height = maxWidth / aspectRatio;
+
+    if (height > maxHeight) {
+        canvas.width = maxHeight * aspectRatio;
+        canvas.height = maxHeight;
+    } else {
+        canvas.width = width;
+        canvas.height = height;
+    }
+
+    const pixelRatio = window.devicePixelRatio || 1;
+    canvas.width *= pixelRatio;
+    canvas.height *= pixelRatio;
+
+    canvas.style.width = `${maxWidth}px`;
+    canvas.style.height = `${maxHeight}px`;
+}
+
+// Call the resize function initially and on window resize
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
       
 
         const GRID_SIZE = 32;
